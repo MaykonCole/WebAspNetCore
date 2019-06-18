@@ -37,7 +37,8 @@ namespace ProjetoWeb
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<ProjetoWebContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("ProjetoWebContext")));
+                    options.UseMySql(Configuration.GetConnectionString("ProjetoWebContext"), builder =>
+                    builder.MigrationsAssembly("ProjetoWeb")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
