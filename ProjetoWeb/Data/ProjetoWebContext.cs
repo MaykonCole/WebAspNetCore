@@ -13,6 +13,11 @@ namespace ProjetoWeb.Models
         {
         }
 
-        public DbSet<ProjetoWeb.Models.Departament> Departament { get; set; }
+        // Classes precisam ser Adicionadas no DBContext para serem reconhecidas
+
+        public DbSet<Departament> Departament { get; set; }
+        public DbSet<Vendedor> Vendedor { get; set; }
+        public DbSet<Pedido> Pedido { get; set; }
     }
+
 }

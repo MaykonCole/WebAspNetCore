@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using ProjetoWeb.Models.Enums;
 
 namespace ProjetoWeb.Models
 {
     public class Pedido
     {
+        [Key]
         public int IdPedido { get; set; }
         public DateTime DataInicio { get; set; }
         public DateTime DataFim { get; set; }
