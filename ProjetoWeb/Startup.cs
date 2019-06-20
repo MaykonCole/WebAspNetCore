@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using ProjetoWeb.Models;
+using ProjetoWeb.Data;
 
 namespace ProjetoWeb
 {
@@ -31,6 +32,7 @@ namespace ProjetoWeb
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+
             });
 
 
@@ -39,14 +41,19 @@ namespace ProjetoWeb
             services.AddDbContext<ProjetoWebContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("ProjetoWebContext"), builder =>
                     builder.MigrationsAssembly("ProjetoWeb")));
+
+            // Registra o nosso Serviço no sistema de Injeção de Dependências da Aplicação
+            services.AddScoped<SeedingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedingService seedingservice)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                // Popular a base de dados
+                seedingservice.Enviar();
             }
             else
             {

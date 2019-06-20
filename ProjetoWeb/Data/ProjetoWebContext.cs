@@ -13,7 +13,7 @@ namespace ProjetoWeb.Models
         {
         }
 
-        // Classes precisam ser Adicionadas no DBContext para serem reconhecidas
+        // Classes precisam ser Adicionadas no DBContext para serem reconhecidas pelo Entity FrameWork
 
         public DbSet<Departament> Departament { get; set; }
         public DbSet<Vendedor> Vendedor { get; set; }

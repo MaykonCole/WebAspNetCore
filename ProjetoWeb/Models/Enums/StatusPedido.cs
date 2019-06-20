@@ -1,4 +1,4 @@
-﻿
+﻿// Tipos de Status dos Pedidos
 namespace ProjetoWeb.Models.Enums
 {
     public enum StatusPedido : int
