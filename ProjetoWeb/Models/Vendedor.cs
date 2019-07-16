@@ -19,6 +19,8 @@ namespace ProjetoWeb.Models
         public int Celular { get; set; }
 
         public Departament Dp { get; set; }
+
+        public int DepartamentId { get; set; }
         public ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
 
         // Construtor Vazio

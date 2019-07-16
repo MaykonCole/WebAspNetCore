@@ -19,7 +19,13 @@ namespace ProjetoWeb.Data
 
         public void Enviar ()
         {
-            
+            // Avalia se já existe dados no banco, se sim não faz nada
+            if (_context.Departament.Any() || 
+                _context.Vendedor.Any() ||
+                _context.Pedido.Any())
+            {
+                return; 
+            }
 
             Departament d1 = new Departament(1, "Artes Gráficas");
             Departament d2 = new Departament(2, "Atendimento");
@@ -31,7 +37,7 @@ namespace ProjetoWeb.Data
             Vendedor v2 = new Vendedor(456, "Camila", "Recepcionista", "camila@hotmail.com", 97654357, d2);
             Vendedor v3 = new Vendedor(789, "Joel", "Recortisa", "joel@hotmail.com", 97314357, d3);
             Vendedor v4 = new Vendedor(342, "Jether", "Gerente", "jether@hotmail.com", 97114357, d4);
-            Vendedor v5 = new Vendedor(459, "Fabricio", "Estoquista", "fabricio@hotmail.com", 94454357, d5);
+            Vendedor v5 = new Vendedor(457, "Fabricio", "Estoquista", "fabricio@hotmail.com", 94454357, d5);
 
             Pedido p1 = new Pedido(1, new DateTime(2018, 10, 25), new DateTime(2018, 10, 30), 500.0, v1, StatusPedido.Finalizado, d1);
             Pedido p2 = new Pedido(2, new DateTime(2018, 11, 05), new DateTime(2018, 11, 12), 700.0, v1, StatusPedido.Finalizado, d1);

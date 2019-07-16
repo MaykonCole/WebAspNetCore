@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using ProjetoWeb.Models;
 using ProjetoWeb.Data;
+using ProjetoWeb.Services;
+
 
 namespace ProjetoWeb
 {
@@ -44,6 +46,7 @@ namespace ProjetoWeb
 
             // Registra o nosso Serviço no sistema de Injeção de Dependências da Aplicação
             services.AddScoped<SeedingService>();
+            services.AddScoped<VendedorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,7 +56,7 @@ namespace ProjetoWeb
             {
                 app.UseDeveloperExceptionPage();
                 // Popular a base de dados
-                seedingservice.Enviar();
+                seedingservice.Enviar(); 
             }
             else
             {
