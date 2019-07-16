@@ -57,6 +57,8 @@ namespace ProjetoWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Assegura que o ID do novo Vendedor sempre será Tecnologia da Inforamacao
+                // evitando o erro no cadastro por faltar esta informacao
                 vendedor.DepartamentId = 6;
                 _context.Add(vendedor);
                 await _context.SaveChangesAsync();
