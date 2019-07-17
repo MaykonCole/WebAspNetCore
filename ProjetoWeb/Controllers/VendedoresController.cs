@@ -6,16 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjetoWeb.Models;
+using ProjetoWeb.Models.ViewModels;
+using ProjetoWeb.Services;
 
 namespace ProjetoWeb.Controllers
 {
     public class VendedoresController : Controller
     {
         private readonly ProjetoWebContext _context;
+        private readonly DepartamentService _dpservice;
 
-        public VendedoresController(ProjetoWebContext context)
+        public VendedoresController(ProjetoWebContext context, DepartamentService dps)
         {
             _context = context;
+            _dpservice = dps;
         }
 
         // GET: Vendedores
@@ -45,7 +49,9 @@ namespace ProjetoWeb.Controllers
         // GET: Vendedores/Create
         public IActionResult Create()
         {
-            return View();
+            var departaments = _dpservice.FindAll();
+            var viewModel = new VendedorFormViewModel { Departaments = departaments };
+            return View(viewModel);
         }
 
         // POST: Vendedores/Create
@@ -53,13 +59,13 @@ namespace ProjetoWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Cpf,Nome,Cargo,Email,Celular")] Vendedor vendedor)
+        public async Task<IActionResult> Create([Bind("Cpf,Nome,Cargo,Email,Celular,DepartamentId")] Vendedor vendedor)
         {
             if (ModelState.IsValid)
             {
                 // Assegura que o ID do novo Vendedor sempre será Tecnologia da Inforamacao
                 // evitando o erro no cadastro por faltar esta informacao
-                vendedor.DepartamentId = 6;
+                //vendedor.DepartamentId = 6;
                 _context.Add(vendedor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
