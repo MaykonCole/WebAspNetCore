@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ProjetoWeb.Models;
 using ProjetoWeb.Models.ViewModels;
 using ProjetoWeb.Services;
+using ProjetoWeb.Services.Exceptions;
 
 namespace ProjetoWeb.Controllers
 {
@@ -87,7 +88,12 @@ namespace ProjetoWeb.Controllers
             {
                 return NotFound();
             }
-            return View(vendedor);
+            var departaments = _dpservice.FindAll();
+            var viewModel = new VendedorFormViewModel { Vendedor = vendedor, Departaments = departaments };
+            return View(viewModel);
+            
+
+            
         }
 
         // POST: Vendedores/Edit/5
@@ -95,11 +101,11 @@ namespace ProjetoWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Cpf,Nome,Cargo,Email,Celular")] Vendedor vendedor)
+        public async Task<IActionResult> Edit(int id, [Bind("Cpf,Nome,Cargo,Email,Celular,DepartamentId")] Vendedor vendedor)
         {
             if (id != vendedor.Cpf)
             {
-                return NotFound();
+                 throw new NotFoundException("CPF não localizado!");
             }
 
             if (ModelState.IsValid)
@@ -107,6 +113,7 @@ namespace ProjetoWeb.Controllers
                 try
                 {
                     _context.Update(vendedor);
+                   
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
