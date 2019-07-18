@@ -18,7 +18,7 @@ namespace ProjetoWeb.Models
         public String Email { get; set; }
         public int Celular { get; set; }
 
-        public Departament Dp { get; set; }
+        public Departament Departamento { get; set;}
 
         public int DepartamentId { get; set; }
         public ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
@@ -37,7 +37,7 @@ namespace ProjetoWeb.Models
             Cargo = cargo;
             Email = email;
             Celular = celular;
-            Dp = dep;
+            Departamento = dep;
         }
 
         public void AdicionarPedido(Pedido p)

@@ -35,9 +35,10 @@ namespace ProjetoWeb.Controllers
             {
                 return NotFound();
             }
-
+            // Eager Loadin = Possibilita apresentar o nome do Departamento do Vendedor:
+            // Include(obj = obj.Departamento)
             var vendedor = await _context.Vendedor
-                .FirstOrDefaultAsync(m => m.Cpf == id);
+                .Include(obj => obj.Departamento).FirstOrDefaultAsync(m => m.Cpf == id);
             if (vendedor == null)
             {
                 return NotFound();

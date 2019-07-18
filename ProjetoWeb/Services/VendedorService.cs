@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore;
 namespace ProjetoWeb.Services
 {
     public class VendedorService
@@ -22,6 +22,11 @@ namespace ProjetoWeb.Services
         public List<Vendedor> FindAll()
         {
             return _context.Vendedor.ToList();
+        }
+
+        public Vendedor FindById(int cpf)
+        {
+            return _context.Vendedor.Include(obj => obj.Departamento).FirstOrDefault(obj => obj.Cpf == cpf);
         }
     }
 }

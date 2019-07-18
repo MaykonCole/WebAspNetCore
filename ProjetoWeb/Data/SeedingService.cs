@@ -9,7 +9,7 @@ namespace ProjetoWeb.Data
 {
     public class SeedingService
     {
-        private ProjetoWebContext _context;
+        private readonly ProjetoWebContext _context;
         
         // Injeção de Dependência
         public SeedingService(ProjetoWebContext context)
