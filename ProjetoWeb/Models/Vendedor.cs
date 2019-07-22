@@ -11,11 +11,16 @@ namespace ProjetoWeb.Models
     // Atributos da Classe
     public class Vendedor
     {
+
+        
         [Key]
         public int Cpf { get; set; }
+        [Display(Name = "Vendedor")]
         public String Nome { get; set; }
         public String Cargo { get; set; }
+        [DataType(DataType.EmailAddress)]
         public String Email { get; set; }
+        [DataType(DataType.PhoneNumber)]
         public int Celular { get; set; }
 
         public Departament Departamento { get; set;}
