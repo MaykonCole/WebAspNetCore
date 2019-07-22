@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,7 @@ namespace ProjetoWeb.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "CPF não foi localizado!" });
             }
             // Eager Loadin = Possibilita apresentar o nome do Departamento do Vendedor:
             // Include(obj = obj.Departamento)
@@ -42,7 +43,7 @@ namespace ProjetoWeb.Controllers
                 .Include(obj => obj.Departamento).FirstOrDefaultAsync(m => m.Cpf == id);
             if (vendedor == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Vendedor não foi localizado!" });
             }
 
             return View(vendedor);
@@ -80,13 +81,13 @@ namespace ProjetoWeb.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "CPF não foi localizado!" });
             }
 
             var vendedor = await _context.Vendedor.FindAsync(id);
             if (vendedor == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Vendedor não foi localizado!" });
             }
             var departaments = _dpservice.FindAll();
             var viewModel = new VendedorFormViewModel { Vendedor = vendedor, Departaments = departaments };
@@ -105,7 +106,7 @@ namespace ProjetoWeb.Controllers
         {
             if (id != vendedor.Cpf)
             {
-                 throw new NotFoundException("CPF não localizado!");
+                return RedirectToAction(nameof(Error), new { message = "CPF não foi localizado!" });
             }
 
             if (ModelState.IsValid)
@@ -120,7 +121,7 @@ namespace ProjetoWeb.Controllers
                 {
                     if (!VendedorExists(vendedor.Cpf))
                     {
-                        return NotFound();
+                        return RedirectToAction(nameof(Error), new { message = "CPF não foi localizado!" });
                     }
                     else
                     {
@@ -137,14 +138,14 @@ namespace ProjetoWeb.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "CPF não foi localizado!" });
             }
 
             var vendedor = await _context.Vendedor
                 .FirstOrDefaultAsync(m => m.Cpf == id);
             if (vendedor == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Vendedor não foi localizado!" });
             }
 
             return View(vendedor);
@@ -164,6 +165,16 @@ namespace ProjetoWeb.Controllers
         private bool VendedorExists(int id)
         {
             return _context.Vendedor.Any(e => e.Cpf == id);
+        }
+
+        public IActionResult Error(string message)
+        {
+            var ViewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+        };
+            return View(ViewModel);
         }
     }
 }
