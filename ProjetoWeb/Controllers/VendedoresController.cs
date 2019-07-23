@@ -50,9 +50,9 @@ namespace ProjetoWeb.Controllers
         }
 
         // GET: Vendedores/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var departaments = _dpservice.FindAll();
+            var departaments = await _dpservice.FindAllAsync();
             var viewModel = new VendedorFormViewModel { Departaments = departaments };
             return View(viewModel);
         }
@@ -72,7 +72,7 @@ namespace ProjetoWeb.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var departaments = _dpservice.FindAll();
+            var departaments = await _dpservice.FindAllAsync();
             var viewModel = new VendedorFormViewModel { Vendedor = vendedor, Departaments = departaments };
             return View(viewModel);
         }
@@ -90,7 +90,7 @@ namespace ProjetoWeb.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message = "Vendedor não foi localizado!" });
             }
-            var departaments = _dpservice.FindAll();
+            var departaments = await _dpservice.FindAllAsync();
             var viewModel = new VendedorFormViewModel { Vendedor = vendedor, Departaments = departaments };
             return View(viewModel);
             
@@ -131,7 +131,7 @@ namespace ProjetoWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            var departaments = _dpservice.FindAll();
+            var departaments = await _dpservice.FindAllAsync();
             var viewModel = new VendedorFormViewModel { Vendedor = vendedor, Departaments = departaments };
             return View(viewModel);
         }

@@ -19,14 +19,14 @@ namespace ProjetoWeb.Services
             _context = c;
         }
 
-        public List<Vendedor> FindAll()
+        public async Task<List<Vendedor>> FindAllAsync()
         {
-            return _context.Vendedor.ToList();
+            return await _context.Vendedor.ToListAsync();
         }
 
-        public Vendedor FindById(int cpf)
+        public async Task<Vendedor> FindByIdAsync(int cpf)
         {
-            return _context.Vendedor.Include(obj => obj.Departamento).FirstOrDefault(obj => obj.Cpf == cpf);
+            return await _context.Vendedor.Include(obj => obj.Departamento).FirstOrDefaultAsync(obj => obj.Cpf == cpf);
         }
     }
 }

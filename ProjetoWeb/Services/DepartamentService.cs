@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace ProjetoWeb.Services
 {
@@ -18,9 +20,9 @@ namespace ProjetoWeb.Services
             _context = c;
         }
 
-        public List<Departament> FindAll()
+        public async Task<List<Departament>> FindAllAsync()
         {
-            return _context.Departament.OrderBy(x => x.Nome).ToList();
+            return await _context.Departament.OrderBy(x => x.Nome).ToListAsync();
         }
     }
 }
