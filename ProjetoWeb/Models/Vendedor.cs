@@ -16,13 +16,20 @@ namespace ProjetoWeb.Models
         [Key]
         public int Cpf { get; set; }
         [Display(Name = "Vendedor")]
-        public String Nome { get; set; }
-        public String Cargo { get; set; }
-        [DataType(DataType.EmailAddress)]
-        public String Email { get; set; }
-        [DataType(DataType.PhoneNumber)]
-        public int Celular { get; set; }
 
+        [Required (ErrorMessage = "Nome é obrigatório")]
+        [StringLength(20, MinimumLength = 2, ErrorMessage = "{0} não está dentro do padrão entre {2} e {1} caracteres.")]
+        public String Nome { get; set; }
+        [Required(ErrorMessage = "Cargo é obrigatório")]
+        public String Cargo { get; set; }
+        [Required(ErrorMessage = "Email é obrigatório")]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Digite um email válido.")]
+        public String Email { get; set; }
+
+        [Required(ErrorMessage = "Celular é obrigatório")]
+        public int Celular { get; set; }
+        
         public Departament Departamento { get; set;}
 
         public int DepartamentId { get; set; }

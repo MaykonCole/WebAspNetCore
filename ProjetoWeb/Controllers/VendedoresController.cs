@@ -66,14 +66,15 @@ namespace ProjetoWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Assegura que o ID do novo Vendedor sempre será Tecnologia da Inforamacao
-                // evitando o erro no cadastro por faltar esta informacao
-                //vendedor.DepartamentId = 6;
+                
                 _context.Add(vendedor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(vendedor);
+
+            var departaments = _dpservice.FindAll();
+            var viewModel = new VendedorFormViewModel { Vendedor = vendedor, Departaments = departaments };
+            return View(viewModel);
         }
 
         // GET: Vendedores/Edit/5
@@ -130,7 +131,9 @@ namespace ProjetoWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(vendedor);
+            var departaments = _dpservice.FindAll();
+            var viewModel = new VendedorFormViewModel { Vendedor = vendedor, Departaments = departaments };
+            return View(viewModel);
         }
 
         // GET: Vendedores/Delete/5
