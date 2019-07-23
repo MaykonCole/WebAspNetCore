@@ -139,19 +139,28 @@ namespace ProjetoWeb.Controllers
         // GET: Vendedores/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return RedirectToAction(nameof(Error), new { message = "CPF não foi localizado!" });
+                if (id == null)
+                {
+                    return RedirectToAction(nameof(Error), new { message = "CPF não foi localizado!" });
+                }
+
+                var vendedor = await _context.Vendedor
+                    .FirstOrDefaultAsync(m => m.Cpf == id);
+                if (vendedor == null)
+                {
+                    return RedirectToAction(nameof(Error), new { message = "Vendedor não foi localizado!" });
+                }
+                return View(vendedor);
             }
 
-            var vendedor = await _context.Vendedor
-                .FirstOrDefaultAsync(m => m.Cpf == id);
-            if (vendedor == null)
+            catch (DbUpdateException)
             {
-                return RedirectToAction(nameof(Error), new { message = "Vendedor não foi localizado!" });
+                throw new IntegrityException("Não é possivel excluir um vendedor que possui vendas cadastradas.");
             }
 
-            return View(vendedor);
+            
         }
 
         // POST: Vendedores/Delete/5
@@ -159,10 +168,17 @@ namespace ProjetoWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var vendedor = await _context.Vendedor.FindAsync(id);
-            _context.Vendedor.Remove(vendedor);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                var vendedor = await _context.Vendedor.FindAsync(id);
+                _context.Vendedor.Remove(vendedor);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Não é possivel excluir um vendedor que possui vendas cadastradas!" });
+            }
         }
 
         private bool VendedorExists(int id)
